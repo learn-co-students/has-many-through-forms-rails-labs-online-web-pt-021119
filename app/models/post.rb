@@ -11,10 +11,11 @@ class Post < ActiveRecord::Base
 		attributes.values.any?(&:blank?)
   end
 
-	def categories_attributes=(attributes)
-		attributes.values.each do |attribute|
-			category = Category.find_or_create_by(attribute)
-		end
-	end
+	def categories_attributes=(category_attributes)
+    category_attributes.values.each do |category_attribute|
+      category = Category.find_or_create_by(category_attribute)
+      self.categories << category
+    end
+  end
 
 end

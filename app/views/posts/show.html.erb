@@ -1,24 +1,33 @@
-<h1><%= @post.title %></h1>
-<p><%= @post.content %></p>
+<h2><%= @post.title %></h2>
+	<%= @post.content %>
+<h3>Categories</h3>
+<% @post.categories.each do |category| %>
+  <%= link_to category.name, category %>
+<% end %>
 
+<h3>Comments</h3>
 <ul>
-	<% @post.comments.each do |comment|%>
-		<li><%= comment.content %></li>
-	<% end %>
+  <% @post.comments.each do |comment| %>
+    <li><%= comment.user.username %> says: <%= comment.content %></li>
+  <% end %>
 </ul>
 
+<h3>All Commenters</h3>
 <ul>
-	<% @post.users.uniq.each do |user|%>
-		<li><%= user.username %></li>
-	<% end %>
+<% @post.users.uniq.each do |user| %>
+  <li><%= link_to user.username, user %></li>
+<% end %>
 </ul>
 
- <%# form_for(@post) do |f|%>
-	<%= form_for(@comment) do |com|%>
-		<%= com.text_area :content %>
-		<%= com.collection_select :user_id, User.all, :id, :username, include_blank: true %>
-		<%# com.text_field :post_id, @post.id.to_s%>
-	<%# end %>
-	<%= com.submit %>
+ <h3>Add a Comment</h3>
+	<%= form_for @post.comments.build do |f| %>
+		<%= f.label "Content" %>
+		<%= f.text_field :content %>
+		<%= f.collection_select :user_id, User.all, :id, :username, include_blank: 'Choose a User' %>
+		<%= f.hidden_field :post_id %>
+		<%= f.fields_for :user, @post.comments.last.build_user do |user_fields| %>
+			<%= user_fields.text_field :username %>
+		<% end %>
+  <%= f.submit %>
 <% end %>
 
