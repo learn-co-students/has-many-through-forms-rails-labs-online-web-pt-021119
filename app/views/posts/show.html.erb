@@ -1,1 +1,24 @@
+<h1><%= @post.title %></h1>
+<p><%= @post.content %></p>
+
+<ul>
+	<% @post.comments.each do |comment|%>
+		<li><%= comment.content %></li>
+	<% end %>
+</ul>
+
+<ul>
+	<% @post.users.uniq.each do |user|%>
+		<li><%= user.username %></li>
+	<% end %>
+</ul>
+
+ <%# form_for(@post) do |f|%>
+	<%= form_for(@comment) do |com|%>
+		<%= com.text_area :content %>
+		<%= com.collection_select :user_id, User.all, :id, :username, include_blank: true %>
+		<%# com.text_field :post_id, @post.id.to_s%>
+	<%# end %>
+	<%= com.submit %>
+<% end %>
 
