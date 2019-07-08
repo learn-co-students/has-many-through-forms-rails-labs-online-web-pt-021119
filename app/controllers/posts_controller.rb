@@ -10,7 +10,7 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
-    @post.categories.buildss
+    @post.categories.build
   end
 
   def create

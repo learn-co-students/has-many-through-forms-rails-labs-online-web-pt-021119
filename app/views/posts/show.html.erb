@@ -1,8 +1,21 @@
 <h1><%= @post.title %></h1>
-<h3><%= @post.content %></h3>
+<h4>Content: <%= @post.content %></h4>
+<h4>Categories:</h4>
+<ul>
+  <% @post.categories.each do |category| %>
+    <li><%= category.name %></li>
+  <% end %>
+</ul>
+<h4>Comments:</h4>
 <ul>
   <% @post.comments.each do |comment| %>
     <li><%= comment.user.username %> says: <%= comment.content %></li>
+  <% end %>
+</ul>
+<h4>Users who made a comment:</h4>
+<ul>
+  <% @post.users_who_commented.each do |user| %>
+    <li><%= link_to user.username, user_path(user.id) %></li>
   <% end %>
 </ul>
 

@@ -7,8 +7,11 @@ class Post < ActiveRecord::Base
   #accepts_nested_attributes_for :comments
   def category_ids=(category_ids)
     category_ids.each do |category_id|
-      category = Category.find(category_id)
-      self.categories << category
+      self.categories << Category.find(category_id) unless category_id.empty?
     end
+  end
+
+  def users_who_commented
+    self.comments.collect {|c| c.user}.uniq
   end
 end
