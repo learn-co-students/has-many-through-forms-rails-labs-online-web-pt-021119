@@ -1,1 +1,34 @@
+<h1><%= @post.title %></h1>
+<h3><%= @post.content %></h3>
+<ul>
+  <% @post.comments.each do |comment| %>
+    <li><%= comment.user.username %> says: <%= comment.content %></li>
+  <% end %>
+</ul>
 
+<%= form_for :comment, url: comments_path(@comment) do |f|  %>
+  <fieldset>
+    <legend>Comment</legend>
+    <p><%= f.label :content %>
+      <%= f.text_field :content %>
+    </p>
+    <%= f.text_field :post_id, type: "hidden", value: "#{@post.id}" %>
+  </fieldset>
+
+  <fieldset>
+    <legend>User</legend>
+
+      <%= f.collection_select :user_id, User.all, :id, :username, include_blank: true %>
+      <br>
+      <%= f.fields_for :user_attributes do |u| %>
+        <%= u.text_field :username, list: "users_autocomplete" %>
+        <datalist id="users_autocomplete">
+          <% User.all.each do |user| %>
+            <option value="<%= user.username %>">
+          <% end %>
+        </datalist>
+      <% end %>
+  </fieldset>
+
+  <%= f.submit "Create Comment"%>
+<% end %>
