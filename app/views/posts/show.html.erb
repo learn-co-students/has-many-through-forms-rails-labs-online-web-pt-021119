@@ -1,5 +1,17 @@
 <h1><%= @post.title %></h1>
 <p><%= @post.content %></p>
+<%= form_for @post do |f|%>
+  <%= fields_for :comment do |c| %>
+    <%= c.label :Leave_a_Comment %>
+    <%= c.text_area :content %>
+    <%= c.label :user %>
+    <%= c.collection_select :user_ids, User.all, :id, :username, {}, {:id => "comment_user_id"}%>
+    <%= c.fields_for :comments, @post.comments.build do |comments_fields| %>
+      <%= comments_fields.text_field :user %>
+    <% end %>
+  <% end %>
+  <%= f.submit 'Create Comment'%>
+<% end %>
 <ul>
   <% @post.comments.each do |c| %>
     <li><%= c.content %> </li>

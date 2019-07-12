@@ -17,6 +17,12 @@ class PostsController < ApplicationController
     redirect_to post
   end
 
+  def update
+    @post = Post.find(params[:id])
+    @post.comments.build()
+    @post.comments.build()
+  end
+
   private
 
   def post_params
