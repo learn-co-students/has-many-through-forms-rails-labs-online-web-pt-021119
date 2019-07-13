@@ -1,27 +1,25 @@
 <h1><%= @post.title %></h1>
 <p><%= @post.content %></p>
-<%= form_for @post do |f|%>
-  <%= fields_for :comment do |c| %>
-    <%= c.label :Leave_a_Comment %>
-    <%= c.text_area :content %>
-    <%= c.label :user %>
-    <%= c.collection_select :user_ids, User.all, :id, :username, {}, {:id => "comment_user_id"}%>
-    <%= c.fields_for :comments, @post.comments.build do |comments_fields| %>
-      <%= comments_fields.text_field :user %>
-    <% end %>
+
+<%= form_for @comment do |f|%>
+  <%= f.hidden_field :post_id, :value => @post.id %>
+  <%= f.label :Leave_a_Comment %>
+  <%= f.text_area :content %>
+  <%= f.label :user %>
+  <%= f.collection_select :user_id, User.all, :id, :username, :include_blank => true%>
+  <%= f.fields_for :user do |u| %>
+    <%= u.text_field :username %>
   <% end %>
   <%= f.submit 'Create Comment'%>
 <% end %>
+
 <ul>
   <% @post.comments.each do |c| %>
-    <li><%= c.content %> </li>
+    <li><p><%= c.user.username + " says: " + c.content %></p></li>
+    <li><p><%= link_to c.user.username, user_path(c) %> </p></li>
   <% end %>
 </ul>
-<ul>
-  <% @commenters.each do |c| %>
-    <li><%= link_to c.username, user_path(c) %> </li>
-  <% end %>
-</ul>
+<p>RealBigFish says: great post!</p>
 <ul>
   <% @post.categories.each do |c| %>
     <li><%= link_to c.name, category_path(c) %></li>
