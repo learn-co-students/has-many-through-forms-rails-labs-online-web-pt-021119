@@ -1,6 +1,11 @@
 class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
+    @users = []
+    @post.comments.each do |comment|
+      @users << User.find(comment.user_id).username
+    end
+    @users.uniq!
   end
 
   def index
@@ -21,4 +26,5 @@ class PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:title, :content, category_ids:[], categories_attributes: [:name])
   end
+
 end

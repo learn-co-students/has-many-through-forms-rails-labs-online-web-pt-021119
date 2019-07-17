@@ -67,4 +67,5 @@ describe 'Posts', type: 'feature' do
       expect(page).to have_link(@user.username, href: user_path(@user), count: 1)
     end
   end
+  
 end
