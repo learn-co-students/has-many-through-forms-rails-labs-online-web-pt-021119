@@ -1,1 +1,44 @@
 
+<%= @post.title %><br>
+<%= @post.content %><br>
+
+<ul>
+<%= @post.comments.each do |c| %>
+    <li><%= c.content %></li>
+    <%end%>
+</ul>
+
+<ul>
+<%= @post.users.each do |u| %>
+    <li><%= link_to u.username, user_path(u) %></li>
+    <%end%>
+</ul>
+    
+<%= form_for(@post) do |f| %>
+    <%= f.fields_for :comments do |c| %>
+        <%= f.label :content %>
+        <%= f.text_field :content %>
+    <%end%>
+    <br>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+    <br>
+    <%= f.label :username %>
+    <%= f.collection_select :user_ids, User.all, :id, :username %>
+    <%= f.fields_for :users, @post.users.new do |u| %>
+    <%= u.text_field :username %>
+        <%end%>
+
+    <%= f.submit %>
+<%end%>
+
+<br>
+A list of all the unique users who have commented on the post. 
+A user's name should only show up once in this section, even 
+if they've commented multiple times.
+
+A form to add a new comment. The form should have a drop-down 
+menu to select a user (we'll change this in future lessons to 
+automatically associate the comment with a logged-in user). We 
+should also be able to create a new user here and automatically 
+associate it with the post.
