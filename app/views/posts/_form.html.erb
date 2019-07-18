@@ -1,1 +1,19 @@
+<%= form_for post do |f| %>
+  <fieldset>
+    <legend>Post</legend>
+    <p><%= f.label "Title" %>
+    <%= f.text_field :title %></p>
+    <p><%= f.label "Content" %>
+    <%= f.text_area :content %></p>
+  </fieldset>
+  <fieldset>
+    <legend>Category</legend>
+    <p><%= f.collection_check_boxes :category_ids, Category.all, :id, :name %></p>
+    <p><%= f.label "Category" %>
+    <%= f.fields_for :categories, post.categories.build do |categories_fields| %>
+      <%= categories_fields.text_field :name %>
+    <% end %></p>
+  </fieldset>
 
+  <%= f.submit %>
+<% end %>
