@@ -1,1 +1,10 @@
+<h1> <%= @user.username %> </h1>
 
+<% @user.posts.distinct.pluck(:id).each do |post_id| %>
+<p><%= link_to Post.find(post_id).title, post_path(post_id) %>
+</p>
+<% end %>
+
+<!--
+  1. Create user#show page that links to all of the posts a user has commented option
+-->

@@ -1,1 +1,39 @@
+<h1><%= @post.title %></h1>
 
+<p>Categories:
+  <% @post.categories.each do |category| %>
+  #<%= link_to category.name, category_path(category) %>
+  <% end %>
+</p>
+
+<h3><%= @post.content %></h3>
+
+
+  <% @post.comments.each do |comment| %>
+    <em>
+    <% if comment.content.present? %>
+      <%= User.find(comment.user_id).username %> says: <%= comment.content %>
+    <% end %>
+    </em><br>
+  <% end %>
+
+<p>Commenters:
+<% post_comments_user_ids = [] %>
+<% @post.comments.each do |comment| %>
+  <% post_comments_user_ids << comment.user_id %>
+<% end %>
+<% post_comments_user_ids.uniq! %>
+<% post_comments_user_ids.each do |id| %>
+  <%= link_to User.find(id).username, user_path(id) %>.
+<% end %>
+</p>
+
+<% @comment = @post.comments.build %>
+<%= render 'comment' %>
+
+<!--
+1. The title and content of the post.
+2. All of the comments associated with the post.
+3. A list of all the unique users who have commented on the post. A user's name should only show up once in this section, even if they've commented multiple times.
+
+-->
