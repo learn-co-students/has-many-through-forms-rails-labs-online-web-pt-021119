@@ -1,1 +1,10 @@
 <%= render 'form', post: Post.new %>
+
+
+
+#@post the form_for will check @post for an id.
+#When you pass a @post from the controller in the new action as @post = Post.new the id will be set to ? nil,
+#so form_for checks the id and knows its nil therefore its make its a post action instead of an update.
+#
+#When you pass a @post from the controller in the edit action as @post = post.find_buy(id: params(:id)) the id will be not nil.
+#So form_for will know and therefore make it an update action.
