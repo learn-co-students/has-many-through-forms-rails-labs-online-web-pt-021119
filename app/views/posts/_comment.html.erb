@@ -1,0 +1,20 @@
+<%= form_for @comment do |f| %>
+  <%= f.label :content, "Comment"%><br>
+  <%= f.text_area :content %><br>
+  <%= f.label :user %>
+  <%= f.collection_select :user_id, User.all, :id, :username, {include_blank: true} %><br>
+  <%= f.label :user, "Other User:" %>
+  <input type="text" id="comment_user_attributes_username" name="comment[user_attributes][username]" placeholder="Enter name"><br>
+
+
+  <%= f.hidden_field :post_id %>
+  <%= f.submit %>
+
+<% end %>
+
+<!--
+4. A form to add a new comment. The form should have a drop-down menu to select a user (we'll change this in future lessons to automatically associate the comment with a logged-in user). We should also be able to create a new user here and automatically associate it with the post.
+
+comment_user_attributes_username
+
+-->
