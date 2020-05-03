@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :comments
   resources :users
   resources :categories
+  resources :post_categories
 end
